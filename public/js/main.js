@@ -11,6 +11,8 @@ const socket = io();
 //Join chatRoom
 socket.emit('joinRoom', {username, room});
 
+//Get room and users
+
 // messge from the server
 socket.on('message', message => {
     console.log(message);  
