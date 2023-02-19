@@ -6,9 +6,10 @@ const {username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
 }); 
 
-
-
 const socket = io();
+
+//Join chatRoom
+socket.emit('joinRoom', {username, room});
 
 // messge from the server
 socket.on('message', message => {

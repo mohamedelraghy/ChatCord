@@ -15,22 +15,26 @@ const botName = 'Chat Cord Bot';
 
 // Run when client connect
 io.on('connection', socket => {
+    socket.on('joinRoom', ({username, room}) => {
+        socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
 
-    //welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
-
-    // Broadcast when a user connects
-    socket.broadcast.emit('message', formatMessage(botName, 'A user has joined the chat'));
-
-    // Run when client disconnect
-    socket.on('disconnect', () => {
-        io.emit('message', formatMessage(botName, 'A user has left the chat'));
+        // Broadcast when a user connects
+        socket.broadcast.emit('message', formatMessage(botName, 'A user has joined the chat'));
+ 
     });
 
+    
+    // Run when client disconnect
     socket.on('chatMessage', msg => {
         io.emit('message', formatMessage('User', msg)); 
     });
+    
+    //welcome current user
+    socket.on('disconnect', () => {
+        io.emit('message', formatMessage(botName, 'A user has left the chat'));
+    });
 });
+
 
 const PORT = 3000 || process.env.PORT;
 
